@@ -1,5 +1,9 @@
-# quizdown [![npm version](https://badge.fury.io/js/quizdown.svg)](https://badge.fury.io/js/quizdown) [![Build](https://github.com/bonartm/quizdown-js/actions/workflows/build.yml/badge.svg)](https://github.com/bonartm/quizdown-js/actions/workflows/build.yml)
+[![Status: Archived](https://img.shields.io/badge/Status-Archived-yellow.svg)](#)
 
+> **Archived** • This repository was archived on **2025-11-19** and is no longer maintained.
+
+
+# quizdown [![npm version](https://badge.fury.io/js/quizdown.svg)](https://badge.fury.io/js/quizdown) [![Build](https://github.com/bonartm/quizdown-js/actions/workflows/build.yml/badge.svg)](https://github.com/bonartm/quizdown-js/actions/workflows/build.yml)
 > Markdownish syntax to instantly create simple interactive quiz apps for your static website.
 
 I'm working on this project in my free time to learn more about modern web development and languages. This is a toy project and should not be used in serious projects for now. 
