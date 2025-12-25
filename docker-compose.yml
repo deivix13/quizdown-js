@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  quizdownjs:
+    build: .
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/app
+    command: npx serve -s public/build -l 5001
