@@ -7,7 +7,7 @@ import {
     faCog,
     faCircleNotch,
 } from '@fortawesome/free-solid-svg-icons';
-import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
+import { faBookmark, faLightbulb } from '@fortawesome/free-regular-svg-icons';
 
 export default function () {
     config.autoAddCss = false;
@@ -17,6 +17,7 @@ export default function () {
         faRedo,
         faLightbulb,
         faCheckDouble,
-        faCircleNotch
+        faCircleNotch,
+        faBookmark
     );
 }
