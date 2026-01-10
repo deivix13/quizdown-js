@@ -6,6 +6,7 @@ import {
     faCheckDouble,
     faCog,
     faCircleNotch,
+    faBookmark as faBookmarkSolid
 } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark, faLightbulb } from '@fortawesome/free-regular-svg-icons';
 
@@ -18,6 +19,7 @@ export default function () {
         faLightbulb,
         faCheckDouble,
         faCircleNotch,
-        faBookmark
+        faBookmark,
+        faBookmarkSolid
     );
 }

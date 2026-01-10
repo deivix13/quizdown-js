@@ -18,7 +18,7 @@
     export let name: IconName;
     export let solid = true;
 
-    let prefix = solid ? 'fas' : 'far';
+    $: prefix = solid ? 'fas' : 'far';
 
     let params: IconParams = {
         classes: [

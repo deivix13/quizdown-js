@@ -1,6 +1,7 @@
 import { writable, get, Writable } from 'svelte/store';
 import autoBind from 'auto-bind';
 import type { Config } from './config.js';
+import { t } from 'svelte-i18n';
 
 function isEqual(a1: Array<number>, a2: Array<number>): boolean {
     return JSON.stringify(a1) === JSON.stringify(a2);
@@ -39,6 +40,7 @@ export abstract class BaseQuestion {
     readonly options: Config;
     showHint: Writable<boolean>;
     visited: boolean;
+    bookmarked: Writable<boolean>;
 
     constructor(
         text: string,
@@ -62,6 +64,7 @@ export abstract class BaseQuestion {
         this.visited = false;
         autoBind(this);
         this.reset();
+        this.bookmarked = writable(false);
     }
 
     enableHint() {
@@ -77,6 +80,12 @@ export abstract class BaseQuestion {
             this.answers = shuffle(this.answers, this.answers.length);
         }
     }
+
+    toggleBookmark() {
+        console.log('toggling bookmark');
+        this.bookmarked.update((val) => !val);
+    }
+
     abstract isCorrect(): boolean;
 }
 

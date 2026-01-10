@@ -31,11 +31,12 @@
     $: onResults = quiz.onResults;
     $: isEvaluated = quiz.isEvaluated;
     $: allVisited = quiz.allVisited;
+    $: bookmarked = $question.bookmarked;
 
     //let game = new Linear(quiz);
-    
+
     let enableRetry = quiz.config.enableRetry;
-    
+
     registerLanguages(quiz.config.locale);
     registerIcons();
 
@@ -120,13 +121,20 @@
                     <svelte:fragment slot="right">
                         {#if enableRetry}
                             <Button
-                                slot="right"
                                 title="{$_('reset')}"
                                 buttonAction="{() => {
                                     reloaded = !reloaded;
                                     quiz.reset();
                                 }}"><Icon name="redo" /></Button
                             >
+                            <Button
+                                title="{$_('book')}"
+                                buttonAction="{() => {
+                                    $question.toggleBookmark();
+                                }}"
+                            >
+                                <Icon name="bookmark" solid="{$bookmarked}" />
+                            </Button>
                         {/if}
                     </svelte:fragment>
                 </Row>
