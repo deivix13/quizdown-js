@@ -3,6 +3,7 @@
     "previous": "Previous",
     "evaluate": "Evaluate",
     "reset": "One more time!",
+    "bookmark": "Maybe later ;)",
     "hint": "Show hint",
     "resultsTitle": "Your quiz results",
     "resultsText": "You have answered {points} out of {total} questions correctly!",

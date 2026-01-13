@@ -3,6 +3,7 @@
     "previous": "Anterior",
     "evaluate": "Respuesta",
     "reset": "¡Otra vez!",
+    "bookmark": "Quizás más tarde ;)",
     "hint": "Mostrar pista",
     "resultsTitle": "Tus resultados",
     "resultsText": "¡Respondiste correctamente {points} de {total} preguntas!",
