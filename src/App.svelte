@@ -129,6 +129,7 @@
                             >
                             <Button
                                 title="{$_('book')}"
+                                disabled="{$onResults}"
                                 buttonAction="{() => {
                                     $question.toggleBookmark();
                                 }}"

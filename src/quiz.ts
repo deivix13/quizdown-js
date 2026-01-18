@@ -82,7 +82,6 @@ export abstract class BaseQuestion {
     }
 
     toggleBookmark() {
-        console.log('toggling bookmark');
         this.bookmarked.update((val) => !val);
     }
 
@@ -189,6 +188,10 @@ export class Quiz {
     isEvaluated: Writable<boolean>;
     allVisited: Writable<boolean>;
 
+    private allQuestionsBackup: BaseQuestion[] | null = null;
+    private isReviewingBookmarks: boolean = false;
+
+
     constructor(questions: Array<BaseQuestion>, config: Config) {
         this.index = writable(0);
         this.questions = questions;
@@ -196,6 +199,7 @@ export class Quiz {
         if (this.config.shuffleQuestions) {
             this.questions = shuffle(this.questions, this.config.nQuestions);
         }
+        this.allQuestionsBackup = [...this.questions];
         if (this.questions.length == 0) {
             throw 'No questions for quiz provided';
         }
@@ -226,24 +230,43 @@ export class Quiz {
     }
 
     jump(index: number): boolean {
-        if (index <= this.questions.length - 1 && index >= 0) {
-            // on a question
+        const totalNumberOfQuestions = this.questions.length;
+
+        if (index <= totalNumberOfQuestions - 1 && index >= 0) {
             this.index.set(index);
             this.setActive();
             this.allVisited.set(this.checkAllVisited());
             this.onResults.set(false);
-            this.onLast.set(index == this.questions.length - 1);
-            this.onFirst.set(index == 0);
+            this.onLast.set(index === totalNumberOfQuestions - 1);
+            this.onFirst.set(index === 0);
             return true;
-        } else if (index == this.questions.length) {
-            // on results page
+        } 
+        
+        else if (index === totalNumberOfQuestions) {
+            // Go through bookmarks
+            const bookmarks = this.getAllBookmarks();
+            
+            if (bookmarks.length > 0 && !this.isReviewingBookmarks) {
+                this.isReviewingBookmarks = true;
+                bookmarks.forEach(q => q.visited = false);
+                this.questions = bookmarks; 
+                this.index.set(0);
+                this.setActive();
+                this.onFirst.set(true);
+                this.onLast.set(bookmarks.length === 1);
+                this.allVisited.set(bookmarks.length === 1);
+                return true;
+            }
+            // If no bookmarks are available, move the reference back to the original array
+            this.questions = [...this.allQuestionsBackup]; 
             this.onResults.set(true);
             this.onLast.set(false);
-            this.index.set(index);
             return true;
-        } else {
-            return false;
         }
+        return false;
+    }
+    getAllBookmarks(): BaseQuestion[] {
+        return this.allQuestionsBackup.filter((question) => get(question.bookmarked))
     }
 
     next(): boolean {
@@ -265,8 +288,8 @@ export class Quiz {
     }
 
     evaluate(): number {
-        var points = 0;
-        for (var q of this.questions) {
+        let points = 0;
+        for (let q of this.allQuestionsBackup) {
             if (q.isCorrect()) {
                 points += 1;
             }
