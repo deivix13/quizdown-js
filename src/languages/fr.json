@@ -4,6 +4,7 @@
     "evaluate": "Réponse",
     "reset": "Recommencer!",
     "bookmark": "Peut-être plus tard ;)",
+    "bookmark-review": "Vous examinez maintenant vos questions enregistrées",
     "hint": "Indice",
     "resultsTitle": "Vos résultats",
     "resultsText": "Vous avez répondu correctement à {points} questions sur {total}!",
