@@ -4,6 +4,7 @@
     "evaluate": "Evaluate",
     "reset": "One more time!",
     "bookmark": "Maybe later ;)",
+    "bookmark-review": "Now reviewing your bookmarks",
     "hint": "Show hint",
     "resultsTitle": "Your quiz results",
     "resultsText": "You have answered {points} out of {total} questions correctly!",
