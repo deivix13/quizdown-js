@@ -32,6 +32,7 @@
     $: isEvaluated = quiz.isEvaluated;
     $: allVisited = quiz.allVisited;
     $: bookmarked = $question.bookmarked;
+    $: isBookmarkMode = quiz.isBookmarkMode;
 
     //let game = new Linear(quiz);
 
@@ -61,13 +62,20 @@
 <div class="quizdown-content" bind:this="{node}">
     <Card>
         <ProgressBar value="{$index}" max="{quiz.questions.length - 1}" />
-        <Loading update="{reloaded}" ms="{800}" minHeight="{minHeight}">
+        <Loading update="{reloaded}" ms="{800}" {minHeight}>
             <Container>
-                <SmoothResize minHeight="{minHeight}">
+                <SmoothResize {minHeight}>
                     <Animated update="{$index}">
                         {#if $onResults}
-                            <ResultsView quiz="{quiz}" />
+                            <ResultsView {quiz} />
                         {:else}
+                            {#if $isBookmarkMode}
+                                <div class="bookmark-mode">
+                                    <Icon name="bookmark" solid />
+                                    {$_('bookmark-review')}
+                                </div>
+                            {/if}
+
                             <QuestionView
                                 question="{$question}"
                                 n="{$index + 1}"
@@ -128,8 +136,8 @@
                                 }}"><Icon name="redo" /></Button
                             >
                             <Button
-                                title="{$_('book')}"
-                                disabled="{$onResults}"
+                                title="{$_('bookmark')}"
+                                disabled="{$onResults || $isBookmarkMode}"
                                 buttonAction="{() => {
                                     $question.toggleBookmark();
                                 }}"

@@ -187,9 +187,10 @@ export class Quiz {
     onFirst: Writable<boolean>;
     isEvaluated: Writable<boolean>;
     allVisited: Writable<boolean>;
+    isBookmarkMode: Writable<boolean>;
 
-    private allQuestionsBackup: BaseQuestion[] | null = null;
-    private isReviewingBookmarks: boolean = false;
+    private readonly allQuestionsBackup: BaseQuestion[] | null = null;
+    //private isReviewingBookmarks: boolean = false;
 
 
     constructor(questions: Array<BaseQuestion>, config: Config) {
@@ -211,6 +212,7 @@ export class Quiz {
         this.onFirst = writable(true);
         this.allVisited = writable(this.questions.length == 1);
         this.isEvaluated = writable(false);
+        this.isBookmarkMode = writable(false);
         autoBind(this);
     }
 
@@ -240,16 +242,16 @@ export class Quiz {
             this.onLast.set(index === totalNumberOfQuestions - 1);
             this.onFirst.set(index === 0);
             return true;
-        } 
-        
+        }
+
         else if (index === totalNumberOfQuestions) {
             // Go through bookmarks
             const bookmarks = this.getAllBookmarks();
-            
-            if (bookmarks.length > 0 && !this.isReviewingBookmarks) {
-                this.isReviewingBookmarks = true;
+
+            if (bookmarks.length > 0 && !get(this.isBookmarkMode)) {
+                this.isBookmarkMode.set(true);
                 bookmarks.forEach(q => q.visited = false);
-                this.questions = bookmarks; 
+                this.questions = bookmarks;
                 this.index.set(0);
                 this.setActive();
                 this.onFirst.set(true);
@@ -258,7 +260,7 @@ export class Quiz {
                 return true;
             }
             // If no bookmarks are available, move the reference back to the original array
-            this.questions = [...this.allQuestionsBackup]; 
+            this.questions = [...this.allQuestionsBackup];
             this.onResults.set(true);
             this.onLast.set(false);
             return true;
@@ -282,6 +284,11 @@ export class Quiz {
         this.onResults.set(false);
         this.allVisited.set(false);
         this.isEvaluated.set(false);
+
+        // reset bookmarks
+        this.isBookmarkMode.set(false);
+        this.questions = [...this.allQuestionsBackup];
+        this.getAllBookmarks().forEach((q) => q.bookmarked.set(false));
 
         this.questions.forEach((q) => q.reset());
         return this.jump(0);
